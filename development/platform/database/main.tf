@@ -19,6 +19,15 @@ resource "random_password" "db_pass" {
 data "aws_caller_identity" "current" {
 }
 
+resource "aws_security_group" "database_security_group" {
+  name        = "allow-traffic-to-rds-database"
+  description = "Allow inbound traffic from ROSA Cluster"
+  vpc_id      = data.terraform_remote_state.foundation.outputs.vpcs.database.vpc_id
+  tags = {
+    Name = "RDS Database Security Group"
+  }
+}
+
 resource "aws_kms_key" "database_kms_key" {
   description = "Symmetric encryption KMS key for RDS Database"
   policy = jsonencode({
@@ -60,7 +69,7 @@ module "database" {
   backup_retention_period     = 30
   kms_key_id                  = aws_kms_key.database_kms_key.arn
   manage_master_user_password = false
-  db_subnet_group_name        = "hcp-terraform-database"
+  db_subnet_group_name        = data.terraform_remote_state.foundation.outputs.vpcs.database.database_subnet_group_name
   family                      = "postgres16"
   # Database Engine specific parameters - https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.PostgreSQL.CommonDBATasks.Parameters.html
   parameters = [
@@ -76,7 +85,7 @@ module "database" {
   db_name                      = "hcp_terraform"
   username                     = "hcp_terraform"
   password                     = sensitive(random_password.db_pass.result)
-  vpc_security_group_ids       = data.terraform_remote_state.foundation.outputs.vpcs.database.database_subnet_group_name
+  vpc_security_group_ids       = [ aws_security_group.database_security_group.id ]
   maintenance_window           = "fri:10:00-fri:14:00"
   multi_az                     = true
   auto_minor_version_upgrade   = false
