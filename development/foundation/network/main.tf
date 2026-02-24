@@ -96,7 +96,7 @@ module "multi_platform_vpc" {
 
   enable_nat_gateway   = true
   enable_dns_hostnames = true
-  enable_dns_support   = true
+  enable_dns_support   = false
 
   tags = var.default_tags
 }
