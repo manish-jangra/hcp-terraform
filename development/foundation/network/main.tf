@@ -11,20 +11,20 @@ locals {
   # Configuration for VPCs sharing the primary AWS provider
   primary_vpc_configs = {
     "cluster" = {
-      name                 = "${var.cluster_name}-rosa"
-      cidr                 = var.cluster_vpc_cidr
-      private_subnets      = var.cluster_private_subnets
-      public_subnets       = var.cluster_public_subnets
-      enable_nat_gateway   = true
-      single_nat_gateway   = false
+      name                   = "${var.cluster_name}-rosa"
+      cidr                   = var.cluster_vpc_cidr
+      private_subnets        = var.cluster_private_subnets
+      public_subnets         = var.cluster_public_subnets
+      enable_nat_gateway     = true
+      single_nat_gateway     = false
       one_nat_gateway_per_az = true
     }
     "database" = {
-      name                           = "${var.cluster_name}-database"
-      cidr                           = var.database_vpc_cidr
-      database_subnets               = var.database_subnets
-      enable_nat_gateway             = false
-      create_database_subnet_group   = true
+      name                               = "${var.cluster_name}-database"
+      cidr                               = var.database_vpc_cidr
+      database_subnets                   = var.database_subnets
+      enable_nat_gateway                 = false
+      create_database_subnet_group       = true
       create_database_subnet_route_table = true
     }
   }

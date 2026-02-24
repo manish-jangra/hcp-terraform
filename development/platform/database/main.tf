@@ -85,7 +85,7 @@ module "database" {
   db_name                      = "hcp_terraform"
   username                     = "hcp_terraform"
   password                     = sensitive(random_password.db_pass.result)
-  vpc_security_group_ids       = [ aws_security_group.database_security_group.id ]
+  vpc_security_group_ids       = [aws_security_group.database_security_group.id]
   maintenance_window           = "fri:10:00-fri:14:00"
   multi_az                     = true
   auto_minor_version_upgrade   = false
@@ -94,3 +94,5 @@ module "database" {
   ca_cert_identifier           = "rds-ca-rsa2048-g1"
   apply_immediately            = true
 }
+
+# S3 Module 

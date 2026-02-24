@@ -6,7 +6,7 @@ output "vpcs" {
     # Primary account VPCs
     "cluster"  = module.primary_vpcs["cluster"]
     "database" = module.primary_vpcs["database"]
-    
+
     # Multi-platform account VPC
     "multi_platform" = module.multi_platform_vpc
   }

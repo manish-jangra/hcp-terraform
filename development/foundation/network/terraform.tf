@@ -14,5 +14,5 @@ provider "aws" {
 
 provider "aws" {
   region = "ap-south-1"
-  alias = "multi_platform_account"
+  alias  = "multi_platform_account"
 }
